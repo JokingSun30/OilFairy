@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/flMultiPhotos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:alpha="0.95"
+        android:background="@color/color_night_black">
+
+        <com.smarteist.autoimageslider.SliderView
+            android:id="@+id/sliderView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:sliderAnimationDuration="1000"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            app:sliderAutoCycleDirection="right"
+            app:sliderIndicatorEnabled="true"
+            app:sliderIndicatorGravity="center_horizontal|bottom"
+            app:sliderIndicatorOrientation="horizontal" />
+
+        <LinearLayout
+            android:id="@+id/sliderDots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+</layout>

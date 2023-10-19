@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="toastDialog"
+            type="com.jokingsun.oilfairy.common.dialog.ToastDialog" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_custom_white_dialog_bg"
+            android:orientation="vertical"
+            android:paddingStart="30dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="30dp"
+            android:paddingBottom="20dp">
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="start"
+                android:text=""
+                android:textColor="@color/color_deep_grey"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvSure"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="40dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:text="確定"
+                android:textColor="@color/color_moon_grey"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</layout>

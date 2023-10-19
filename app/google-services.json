@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "974634888131",
+    "project_id": "oilfairy-ddf64",
+    "storage_bucket": "oilfairy-ddf64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974634888131:android:d8e697e4a6d0969a742b76",
+        "android_client_info": {
+          "package_name": "com.jokingsun.oilfairy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBedMMls95LcUl3TZG0t1peen9zJnfA_nQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

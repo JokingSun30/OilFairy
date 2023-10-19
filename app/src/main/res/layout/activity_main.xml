@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="mainActivityViewModel"
+            type="com.jokingsun.oilfairy.ui.controller.MainActivityViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_app_default_3"
+        android:orientation="vertical">
+
+        <!-- Appbar -->
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include
+                android:id="@+id/ilToolbar"
+                layout="@layout/layout_main_activity_toolbar" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <com.jokingsun.oilfairy.common.custom.CustomViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.etebarian.meowbottomnavigation.MeowBottomNavigation
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="visible"
+            android:elevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:mbn_backgroundBottomColor="@color/color_night_black"
+            app:mbn_circleColor="#E2A64A"
+            app:mbn_countBackgroundColor="#ff6f00"
+            app:mbn_countTextColor="#ffffff"
+            app:mbn_defaultIconColor="@color/white"
+            app:mbn_rippleColor="#2f424242"
+            app:mbn_selectedIconColor="@color/white"
+            app:mbn_shadowColor="#1f212121" />
+
+        <!--  Fragments Container -->
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

@@ -1,0 +1,161 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+}
+
+android {
+    namespace 'com.jokingsun.oilfairy'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.jokingsun.oilfairy"
+        minSdk 23
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            //三個參數:1.常量的類型 2.常量名稱 3.常量值
+            //App AES Key
+            buildConfigField("String", "APP_KEY", "\"${APP_KEY}\"")
+            //AppsFlyer Key
+            buildConfigField("String", "AF_DEV_KEY", "\"${APPSFLYER_DEV_KEY}\"")
+
+//            //TEST AD ID KEY
+//            buildConfigField("String", "AD_NATIVE_ID", "\"${TEST_AD_NATIVE_ID}\"")
+//            buildConfigField("String", "AD_INTERSTITIAL_ID", "\"${TEST_AD_INTERSTITIAL_ID}\"")
+//            buildConfigField("String", "AD_BANNER_ID", "\"${TEST_AD_BANNER_ID}\"")
+//
+//            buildConfigField("String", "PRIVACY_WEBSITE_LINK", "\"${PRIVACY_WEBSITE_LINK}\"")
+//            buildConfigField("String", "RESOURCE_WEBSITE_LINK", "\"${RESOURCE_WEBSITE_LINK}\"")
+        }
+
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField("String", "APP_KEY", "\"${APP_KEY}\"")
+            buildConfigField("String", "AF_DEV_KEY", "\"${APPSFLYER_DEV_KEY}\"")
+
+//            //REAL AD ID KEY
+//            buildConfigField("String", "AD_NATIVE_ID", "\"${REAL_AD_NATIVE_ID}\"")
+//            buildConfigField("String", "AD_INTERSTITIAL_ID", "\"${REAL_AD_INTERSTITIAL_ID}\"")
+//            buildConfigField("String", "AD_BANNER_ID", "\"${REAL_AD_BANNER_ID}\"")
+//
+//            buildConfigField("String", "PRIVACY_WEBSITE_LINK", "\"${PRIVACY_WEBSITE_LINK}\"")
+//            buildConfigField("String", "RESOURCE_WEBSITE_LINK", "\"${RESOURCE_WEBSITE_LINK}\"")
+        }
+    }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+}
+
+
+dependencies {
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    implementation 'com.google.firebase:firebase-analytics:21.3.0'
+    implementation 'com.google.firebase:firebase-analytics-ktx:21.3.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.8.1'
+    implementation 'com.google.android.gms:play-services-ads:22.4.0'
+    implementation 'com.google.firebase:firebase-messaging:23.2.1'
+
+    //AppsFlyer
+    implementation 'com.appsflyer:af-android-sdk:6.12.1'
+    implementation "com.android.installreferrer:installreferrer:2.2"
+    implementation "com.miui.referrer:homereferrer:1.0.0.6"
+
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.2'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2'
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx:21.1.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.4.3'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.2.1'
+    implementation 'com.google.firebase:firebase-inappmessaging-display-ktx:20.3.5'
+    implementation 'com.google.firebase:firebase-config:21.4.1'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'com.etebarian:meow-bottom-navigation:1.2.0'
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'com.google.android.libraries.places:places:2.5.0'
+
+    //加密 - preferences
+    implementation 'com.pddstudio:encrypted-preferences:1.3.0'
+
+    //image loading and caching
+    implementation 'com.github.bumptech.glide:glide:4.15.1'
+
+    implementation 'org.jsoup:jsoup:1.11.1'
+
+    //KProgressHUD
+    implementation 'com.kaopiz:kprogresshud:1.2.0'
+
+    //Check Permission
+    implementation 'com.github.githubZYQ:easypermission:v1.0.0'
+    implementation 'pub.devrel:easypermissions:3.0.0'
+
+    //  Simple, pretty and powerful logger for android
+    implementation 'com.orhanobut:logger:2.2.0'
+
+    implementation "androidx.paging:paging-runtime:3.1.1"
+
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+
+    //String處理工具
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    //google play-core
+    implementation 'com.google.android.play:core:1.10.3'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
+    testImplementation "com.squareup.okhttp3:mockwebserver:4.9.3"
+
+    //Retrofit Log 攔截器 (可顯示 Request and Response Log Message)
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+
+    implementation 'androidx.browser:browser:1.3.0'
+
+    //Facebook Shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    //Emoji
+    implementation 'androidx.emoji:emoji:1.1.0'
+    implementation 'androidx.emoji:emoji-appcompat:1.1.0'
+
+    implementation "androidx.core:core-splashscreen:1.0.0"
+
+    implementation 'com.android.volley:volley:1.2.1'
+
+    //ImageSlider
+    implementation 'com.github.smarteist:autoimageslider:1.3.9'
+
+}

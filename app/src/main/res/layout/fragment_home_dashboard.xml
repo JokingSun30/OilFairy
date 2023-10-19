@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="homeDashboard"
+            type="com.jokingsun.oilfairy.ui.fun.dashboard.HomeDashboard" />
+
+        <variable
+            name="homeDashboardViewModel"
+            type="com.jokingsun.oilfairy.ui.fun.dashboard.HomeDashboardViewModel" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.jokingsun.oilfairy.common.custom.CustomSlideBanner
+                    android:id="@+id/sbAdActivity"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    app:AutoCycle="true"
+                    app:CycleDuration="15"
+                    app:IndicatorEnabled="true"
+                    app:IndicatorSelectColor="@color/color_origin_white"
+                    app:IndicatorUnSelectColor="@color/color_moon_grey"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                    app:layout_constraintDimensionRatio="375:150"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:alpha="0.95"
+                    android:background="@color/color_night_black"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="10dp"
+                android:alpha="0.95"
+                android:background="@drawable/bg_gas_top_card"
+                android:layout_marginHorizontal="15dp"
+                android:orientation="vertical">
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="5dp"
+                android:alpha="0.95"
+                android:background="@drawable/bg_gas_bottom_card"
+                android:layout_marginHorizontal="15dp"
+                android:orientation="vertical">
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="10dp"
+                android:alpha="0.95"
+                android:background="@drawable/bg_gas_top_card"
+                android:layout_marginHorizontal="15dp"
+                android:orientation="vertical">
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="80dp"
+                android:alpha="0.95"
+                android:background="@drawable/bg_gas_bottom_card"
+                android:layout_marginHorizontal="15dp"
+                android:orientation="vertical">
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</layout>
