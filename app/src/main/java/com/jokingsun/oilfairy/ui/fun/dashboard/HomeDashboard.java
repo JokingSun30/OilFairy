@@ -6,6 +6,7 @@ import com.jokingsun.oilfairy.BR;
 import com.jokingsun.oilfairy.R;
 import com.jokingsun.oilfairy.base.BaseFragment;
 import com.jokingsun.oilfairy.databinding.FragmentHomeDashboardBinding;
+import com.jokingsun.oilfairy.ui.fun.console.ConsoleCenter;
 
 public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, HomeDashboardViewModel> {
 
@@ -54,5 +55,9 @@ public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, Ho
             viewModel = new ViewModelProvider(this, getFactory()).get(HomeDashboardViewModel.class);
         }
         return viewModel;
+    }
+
+    public void jumpToConsoleCenter() {
+        AddFragment(new ConsoleCenter());
     }
 }

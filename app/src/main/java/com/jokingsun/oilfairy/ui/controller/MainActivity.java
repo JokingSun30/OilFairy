@@ -4,6 +4,7 @@ import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -48,11 +49,6 @@ import com.jokingsun.oilfairy.widget.manager.UpdateManager;
 import com.jokingsun.oilfairy.widget.receiver.AppReceiver;
 import com.orhanobut.logger.Logger;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 /**
  * @author cfd058
  */
@@ -81,14 +77,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         Toolbar toolbar = binding.ilToolbar.toolbar;
         this.setSupportActionBar(toolbar);
 
-        if (this.getSupportActionBar() != null) {
-            //不顯示預設標題
-            this.getSupportActionBar().setDisplayShowTitleEnabled(false);
-            //取消原生返回鍵
-            this.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
-
         updateStatusBarColor(this, R.color.black, false);
+
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+
         hideToolbar();
     }
 
@@ -533,69 +529,5 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         binding.appBar.setVisibility(View.GONE);
     }
 
-    private void testReadSheet() {
-
-    }
-
-    private void getDataFromAPI() {
-
-        // creating a string variable for URL.
-        String url = "https://sheets.googleapis.com/v4/spreadsheets/1b5wGqGBUH09sH9dmc1XlIvdW0_iEG5cRYIrEfNlFpKs/values/testsheet!A1:C4?alt=json&key=AIzaSyAV1n7JcXJ-EpDOLpmylJd3hMuLPqWqU68";
-
-        // creating a new variable for our request queue
-        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-
-        // creating a variable for our JSON object request and passing our URL to it.
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                try {
-                    JSONArray valueArray = response.getJSONArray("values");
-
-                    ArrayList<TestSheetModel> arrayList = new ArrayList<>();
-
-                    for (int i = 0; i < valueArray.length(); i++) {
-                        if (i > 0) {
-                            JSONArray dataArray = valueArray.getJSONArray(i);
-                            TestSheetModel sheetModel = new TestSheetModel();
-
-                            for (int s = 0; s < dataArray.length(); s++) {
-                                if (s == 0) {
-                                    sheetModel.setIndex(dataArray.getString(s));
-
-                                } else if (s == 1) {
-                                    sheetModel.setName(dataArray.getString(s));
-
-                                } else {
-                                    sheetModel.setAge(dataArray.getString(s));
-                                }
-                            }
-
-                            arrayList.add(sheetModel);
-                        }
-                    }
-
-                    Log.d("Google Sheet Data", "整理後：" + new Gson().toJson(arrayList));
-
-
-                } catch (Exception e) {
-                    Log.d("Google Sheet Data", "整理有誤：" + e.getMessage());
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // handling on error listener method.
-                Logger.d("Fail to get data.." + error.getMessage());
-                Toast.makeText(MainActivity.this, "Fail to get data.." + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-        // calling a request queue method
-        // and passing our json object
-        queue.add(jsonObjectRequest);
-    }
 }
 

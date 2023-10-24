@@ -4,14 +4,41 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar" />
 
-<!--    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">-->
-<!--        <item name="android:windowBackground">@drawable/splash_background</item>-->
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorAccent">@color/colorAccent</item>-->
-<!--        <item name="android:statusBarColor">@color/colorAccent</item>-->
-<!--    </style>-->
+    <!--對話框圓角-->
+    <style name="imageDialogCorner" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">20dp</item>
+        <item name="cornerSizeTopLeft">20dp</item>
+    </style>
 
+    <!--四邊圓角-->
+    <style name="imagePictureCorner" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">10dp</item>
+        <item name="cornerSizeTopLeft">10dp</item>
+        <item name="cornerSizeBottomRight">10dp</item>
+        <item name="cornerSizeBottomLeft">10dp</item>
+    </style>
+
+    <!--下邊圓角-->
+    <style name="imageBottomCorner" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeBottomRight">20dp</item>
+        <item name="cornerSizeBottomLeft">20dp</item>
+    </style>
+
+    <!--上邊圓角-->
+    <style name="imageTopCorner" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">20dp</item>
+        <item name="cornerSizeTopLeft">20dp</item>
+    </style>
+
+    <!-- 圓形圖片 -->
+    <style name="circleStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 
     <declare-styleable name="BottomNavigationCircles">
         <attr format="color" name="circleColor"/>

@@ -17,101 +17,220 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent"
+        android:background="@drawable/bg_app_default_3"
         android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="monospace"
+                android:text="Kevin 早安！"
+                android:onClick="@{(v)->homeDashboard.jumpToConsoleCenter()}"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
-                <com.jokingsun.oilfairy.common.custom.CustomSlideBanner
-                    android:id="@+id/sbAdActivity"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    app:AutoCycle="true"
-                    app:CycleDuration="15"
-                    app:IndicatorEnabled="true"
-                    app:IndicatorSelectColor="@color/color_origin_white"
-                    app:IndicatorUnSelectColor="@color/color_moon_grey"
-                    app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-                    app:layout_constraintDimensionRatio="375:150"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/transparent"
+                android:elevation="10dp"
+                app:cardCornerRadius="10dp">
 
                 <LinearLayout
-                    android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:alpha="0.95"
+                    android:layout_height="match_parent"
                     android:background="@color/color_night_black"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    android:elevation="20sp">
 
 
                 </LinearLayout>
 
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottieAnimationView"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="start"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/news"
+                    app:lottie_speed="1" />
+
+                <com.github.yangkangli.marquee_text_view.MarqueeTextView
+                    android:id="@+id/tvNewDateTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:text="下週油價汽油降 0.2 元 / 柴油降 0.3 元，請民眾外出留意自身安全！"
+                    android:textColor="@color/color_white"
+                    android:textSize="20sp"
+                    app:marquee_first_hold_time="1000"
+                    app:marquee_margin_between="100dp"
+                    app:marquee_move_step="2" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/shape_black_10_corner"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/iv98Logo"
+                    app:layout_constraintTop_toTopOf="@+id/iv98Logo">
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <ImageView
+                    android:id="@+id/iv98Logo"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:alpha="0.95"
+                    android:src="@drawable/ic_98"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="10dp">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/shape_black_10_corner"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/iv95Logo"
+                    app:layout_constraintTop_toTopOf="@+id/iv95Logo">
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <ImageView
+                    android:id="@+id/iv95Logo"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:alpha="0.95"
+                    android:src="@drawable/ic_95"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="10dp">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/shape_black_10_corner"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/iv92Logo"
+                    app:layout_constraintTop_toTopOf="@+id/iv92Logo">
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <ImageView
+                    android:id="@+id/iv92Logo"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:alpha="0.95"
+                    android:src="@drawable/ic_92"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_marginTop="10dp"
-                android:alpha="0.95"
-                android:background="@drawable/bg_gas_top_card"
-                android:layout_marginHorizontal="15dp"
-                android:orientation="vertical">
+                android:layout_marginBottom="90dp">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/shape_black_10_corner"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/ivSuperLogo"
+                    app:layout_constraintTop_toTopOf="@+id/ivSuperLogo">
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <ImageView
+                    android:id="@+id/ivSuperLogo"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:alpha="0.95"
+                    android:src="@drawable/ic_super"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginTop="5dp"
-                android:alpha="0.95"
-                android:background="@drawable/bg_gas_bottom_card"
-                android:layout_marginHorizontal="15dp"
-                android:orientation="vertical">
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginTop="10dp"
-                android:alpha="0.95"
-                android:background="@drawable/bg_gas_top_card"
-                android:layout_marginHorizontal="15dp"
-                android:orientation="vertical">
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="80dp"
-                android:alpha="0.95"
-                android:background="@drawable/bg_gas_bottom_card"
-                android:layout_marginHorizontal="15dp"
-                android:orientation="vertical">
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
+
 
     </androidx.core.widget.NestedScrollView>
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.jokingsun.oilfairy.data.remote.ApiHelper;
 import com.jokingsun.oilfairy.ui.fun.center.PersonalCenterViewModel;
+import com.jokingsun.oilfairy.ui.fun.console.ConsoleCenterViewModel;
 import com.jokingsun.oilfairy.ui.fun.dashboard.HomeDashboardViewModel;
 import com.jokingsun.oilfairy.ui.fun.station.FindGasStationViewModel;
 import com.orhanobut.logger.Logger;
@@ -58,6 +59,11 @@ public class ViewModelProviderFactory extends ViewModelProvider.NewInstanceFacto
         //Function - PersonalCenter
         if (modelClass.isAssignableFrom(PersonalCenterViewModel.class)) {
             return (T) new PersonalCenterViewModel(apiHelper);
+        }
+
+        //Function - ConsoleCenter
+        if (modelClass.isAssignableFrom(ConsoleCenterViewModel.class)) {
+            return (T) new ConsoleCenterViewModel(apiHelper);
         }
 
 
