@@ -54,13 +54,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:mbn_backgroundBottomColor="@color/windowBackground"
-            app:mbn_circleColor="@color/color_iron_grey"
+            app:mbn_backgroundBottomColor="@color/color_night_black_B3"
+            app:mbn_circleColor="@color/color_mango"
             app:mbn_countBackgroundColor="#ff6f00"
             app:mbn_countTextColor="#ffffff"
             app:mbn_defaultIconColor="@color/white"
             app:mbn_rippleColor="#2f424242"
-            app:mbn_selectedIconColor="@color/white"
+            app:mbn_selectedIconColor="@color/black"
             app:mbn_shadowColor="#1f212121" />
 
         <!--  Fragments Container -->

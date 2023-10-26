@@ -91,6 +91,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
+            android:visibility="gone"
             android:layout_gravity="center_vertical|start"
             android:gravity="center_vertical|start"
             android:text="@{consoleCenterViewModel.priceSrcJson}"
@@ -101,7 +102,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
