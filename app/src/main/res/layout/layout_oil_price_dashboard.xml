@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
-        android:alpha="0.7"
+        android:alpha="0.8"
         android:background="@color/transparent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,7 +48,6 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:adjustViewBounds="true"
-                        android:alpha="0.9"
                         android:src="@drawable/ic_cpc_logo" />
 
                     <ImageView
@@ -56,7 +55,6 @@
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:adjustViewBounds="true"
-                        android:alpha="0.9"
                         android:src="@drawable/ic_formosa_logo" />
 
                     <ImageView
@@ -64,7 +62,6 @@
                         android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:adjustViewBounds="true"
-                        android:alpha="0.9"
                         android:src="@drawable/ic_costco_logo" />
 
                 </TableRow>
@@ -167,7 +164,6 @@
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_margin="5dp"
-                android:alpha="0.95"
                 android:src="@drawable/ic_98"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
