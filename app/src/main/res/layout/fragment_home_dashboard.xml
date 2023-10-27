@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_app_default_3"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -44,7 +46,7 @@
                 android:layout_height="190dp"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="10dp"
-                android:alpha="0.9"
+                android:alpha="0.7"
                 android:background="@drawable/shape_black_10_corner"
                 android:elevation="20sp"
                 android:orientation="vertical">
@@ -88,13 +90,11 @@
                             app:lottie_speed="1" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvGasPrice"
+                            android:id="@+id/tvGasPriceDelta"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:fontFamily="serif"
-                            android:text="0.5"
-                            android:textColor="#23EE0E"
+                            android:text=""
                             android:textSize="35sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -103,13 +103,14 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:id="@+id/ivGasPriceDelta"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
                             android:src="@drawable/ic_price_down"
-                            android:visibility="visible"
-                            app:layout_constraintBottom_toBottomOf="@+id/tvGasPrice"
-                            app:layout_constraintStart_toEndOf="@+id/tvGasPrice"
-                            app:layout_constraintTop_toTopOf="@+id/tvGasPrice" />
+                            android:visibility="invisible"
+                            app:layout_constraintBottom_toBottomOf="@+id/tvGasPriceDelta"
+                            app:layout_constraintStart_toEndOf="@+id/tvGasPriceDelta"
+                            app:layout_constraintTop_toTopOf="@+id/tvGasPriceDelta" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
@@ -121,7 +122,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvGasPrice" />
+                            app:layout_constraintTop_toBottomOf="@+id/tvGasPriceDelta" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -155,13 +156,11 @@
                             app:lottie_speed="1" />
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvGasPrice2"
+                            android:id="@+id/tvDieselPriceDelta"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:fontFamily="serif"
-                            android:text="0.3"
-                            android:textColor="#FF3131"
+                            android:text=""
                             android:textSize="35sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -170,12 +169,14 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:id="@+id/ivDieselPriceDelta"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:visibility="invisible"
                             android:src="@drawable/ic_price_up"
-                            app:layout_constraintBottom_toBottomOf="@+id/tvGasPrice2"
-                            app:layout_constraintStart_toEndOf="@+id/tvGasPrice2"
-                            app:layout_constraintTop_toTopOf="@+id/tvGasPrice2" />
+                            app:layout_constraintBottom_toBottomOf="@+id/tvDieselPriceDelta"
+                            app:layout_constraintStart_toEndOf="@+id/tvDieselPriceDelta"
+                            app:layout_constraintTop_toTopOf="@+id/tvDieselPriceDelta" />
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"
@@ -187,7 +188,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvGasPrice2" />
+                            app:layout_constraintTop_toBottomOf="@+id/tvDieselPriceDelta" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -229,686 +230,13 @@
 
             </LinearLayout>
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcyOilDashboard"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:alpha="0.9"
-                android:background="@drawable/shape_black_10_corner"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TableLayout
-                    android:id="@+id/tableLayout"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:stretchColumns="1,2,3"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv98Logo"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TableRow>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"
-                            android:alpha="0.9"
-                            android:src="@drawable/ic_cpc_logo" />
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"
-                            android:alpha="0.9"
-                            android:src="@drawable/ic_formosa_logo" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"
-                            android:alpha="0.9"
-                            android:src="@drawable/ic_costco_logo" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="15dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="本週"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="15dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="下週"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="18sp"
-                            android:textStyle="normal" />
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-                    </TableRow>
-
-
-                </TableLayout>
-
-                <ImageView
-                    android:id="@+id/iv98Logo"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_margin="5dp"
-                    android:alpha="0.95"
-                    android:src="@drawable/ic_98"
-                    android:visibility="visible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="5dp"
-                android:alpha="0.9"
-                android:background="@drawable/shape_black_10_corner"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-
-                <TableLayout
-                    android:id="@+id/tableLayout2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:stretchColumns="1,2,3"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv95Logo"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TableRow>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"
-                            android:alpha="0.9"
-                            android:src="@drawable/ic_cpc_logo" />
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"
-                            android:alpha="0.9"
-                            android:src="@drawable/ic_formosa_logo" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"
-                            android:alpha="0.9"
-                            android:src="@drawable/ic_costco_logo" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="15dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="本週"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="15dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="下週"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-                    </TableRow>
-
-
-                </TableLayout>
-
-                <ImageView
-                    android:id="@+id/iv95Logo"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_margin="5dp"
-                    android:alpha="0.95"
-                    android:src="@drawable/ic_95"
-                    android:visibility="visible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="5dp"
-                android:alpha="0.9"
-                android:background="@drawable/shape_black_10_corner"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-
-                <TableLayout
-                    android:id="@+id/tableLayout3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:stretchColumns="1,2,3"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv92Logo"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TableRow>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"
-                            android:alpha="0.9"
-                            android:src="@drawable/ic_cpc_logo" />
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"
-                            android:alpha="0.9"
-                            android:src="@drawable/ic_formosa_logo" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"
-                            android:alpha="0.9"
-                            android:src="@drawable/ic_costco_logo" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="15dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="本週"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="15dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="下週"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-                    </TableRow>
-
-
-                </TableLayout>
-
-                <ImageView
-                    android:id="@+id/iv92Logo"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_margin="5dp"
-                    android:alpha="0.95"
-                    android:src="@drawable/ic_92"
-                    android:visibility="visible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="80dp"
-                android:alpha="0.9"
-                android:background="@drawable/shape_black_10_corner"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-
-                <TableLayout
-                    android:id="@+id/tableLayout4"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center"
-                    android:stretchColumns="1,2,3"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/ivSuperLogo"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TableRow>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:alpha="0.9"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/ic_cpc_logo" />
-
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:alpha="0.9"
-                            android:layout_gravity="center"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/ic_formosa_logo" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center"
-                            android:alpha="0.9"
-                            android:adjustViewBounds="true"
-                            android:src="@drawable/ic_costco_logo" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="15dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="本週"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.1"
-                            android:textColor="@color/white"
-                            android:textSize="23sp"
-                            android:textStyle="bold" />
-                    </TableRow>
-
-                    <TableRow android:layout_marginTop="15dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="下週"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="18sp"
-                            android:textStyle="normal" />
-
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:fontFamily="monospace"
-                            android:text="30.3"
-                            android:textColor="@color/color_hint_grey"
-                            android:textSize="23sp"
-                            android:textStyle="normal" />
-                    </TableRow>
-
-
-                </TableLayout>
-
-                <ImageView
-                    android:id="@+id/ivSuperLogo"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_margin="5dp"
-                    android:alpha="0.95"
-                    android:src="@drawable/ic_super"
-                    android:visibility="visible"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+                android:nestedScrollingEnabled="false"
+                android:layout_marginBottom="80dp" />
 
         </LinearLayout>
 

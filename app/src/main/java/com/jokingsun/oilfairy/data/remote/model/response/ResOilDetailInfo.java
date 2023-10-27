@@ -7,6 +7,7 @@ public class ResOilDetailInfo {
     private String fpgNowPrice;
     private String fpgNextPrice;
     private String costcoNowPrice;
+    private String costcoNextPrice;
 
     public ResOilDetailInfo(String quality) {
         this.quality = quality;
@@ -58,5 +59,13 @@ public class ResOilDetailInfo {
 
     public void setCostcoNowPrice(String costcoNowPrice) {
         this.costcoNowPrice = costcoNowPrice;
+    }
+
+    public String getCostcoNextPrice() {
+        return costcoNextPrice;
+    }
+
+    public void setCostcoNextPrice(String costcoNextPrice) {
+        this.costcoNextPrice = costcoNextPrice;
     }
 }

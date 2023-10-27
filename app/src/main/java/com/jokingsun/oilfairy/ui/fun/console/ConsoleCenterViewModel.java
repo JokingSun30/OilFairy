@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.Gson;
 import com.jokingsun.oilfairy.base.BaseViewModel;
 import com.jokingsun.oilfairy.common.constant.OilCommonSign;
+import com.jokingsun.oilfairy.common.constant.OilQualityEnum;
 import com.jokingsun.oilfairy.data.local.livedata.BaseLiveDataModel;
 import com.jokingsun.oilfairy.data.remote.ApiHelper;
 import com.jokingsun.oilfairy.data.remote.model.response.ResOilDetailInfo;
@@ -33,10 +34,10 @@ public class ConsoleCenterViewModel extends BaseViewModel<ConsoleCenter, BaseLiv
     public ConsoleCenterViewModel(ApiHelper apiHelper) {
         super(apiHelper);
         executorService = Executors.newFixedThreadPool(2);
-        oilDetailInfoList.add(new ResOilDetailInfo("98"));
-        oilDetailInfoList.add(new ResOilDetailInfo("95"));
-        oilDetailInfoList.add(new ResOilDetailInfo("92"));
-        oilDetailInfoList.add(new ResOilDetailInfo("99"));
+        oilDetailInfoList.add(new ResOilDetailInfo(OilQualityEnum.QUALITY_98.getOilQualitySign()));
+        oilDetailInfoList.add(new ResOilDetailInfo(OilQualityEnum.QUALITY_95.getOilQualitySign()));
+        oilDetailInfoList.add(new ResOilDetailInfo(OilQualityEnum.QUALITY_95.getOilQualitySign()));
+        oilDetailInfoList.add(new ResOilDetailInfo(OilQualityEnum.QUALITY_SUPER.getOilQualitySign()));
     }
 
     @Override

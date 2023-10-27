@@ -1,14 +1,29 @@
 package com.jokingsun.oilfairy.ui.fun.dashboard;
 
+import android.os.Handler;
+import android.view.View;
+import android.widget.ImageView;
+
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.jokingsun.oilfairy.BR;
 import com.jokingsun.oilfairy.R;
 import com.jokingsun.oilfairy.base.BaseFragment;
+import com.jokingsun.oilfairy.data.remote.model.response.ResOilDetailInfo;
 import com.jokingsun.oilfairy.databinding.FragmentHomeDashboardBinding;
 import com.jokingsun.oilfairy.ui.fun.console.ConsoleCenter;
+import com.jokingsun.oilfairy.utils.MathUtil;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, HomeDashboardViewModel> {
+
+    private HomeDashAdapter homeDashAdapter;
 
     public static HomeDashboard getInstance() {
         return new HomeDashboard();
@@ -16,12 +31,19 @@ public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, Ho
 
     @Override
     protected void initView() {
-
+        init();
     }
 
     @Override
     protected void initial() {
+        observeTopPriceDelta();
+        observeOilDashboardData();
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        getViewModel().getNextWeekPredict();
     }
 
     @Override
@@ -55,6 +77,48 @@ public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, Ho
             viewModel = new ViewModelProvider(this, getFactory()).get(HomeDashboardViewModel.class);
         }
         return viewModel;
+    }
+
+    private void init() {
+        homeDashAdapter = new HomeDashAdapter(this.getContext());
+        binding.rcyOilDashboard.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        binding.rcyOilDashboard.setAdapter(homeDashAdapter);
+    }
+
+    private void observeOilDashboardData() {
+        getViewModel().getOilDashboardData().observe(this, resOilDetails -> {
+            if (resOilDetails != null && resOilDetails.size() > 0) {
+                homeDashAdapter.setData(resOilDetails);
+            }
+        });
+    }
+
+    private void observeTopPriceDelta() {
+        getViewModel().getGasPriceDelta().observe(this, delta -> {
+            adjustTopDashboardUi(delta, binding.tvGasPriceDelta, binding.ivGasPriceDelta);
+        });
+        getViewModel().getDieselPriceDelta().observe(this, delta -> {
+            adjustTopDashboardUi(delta, binding.tvDieselPriceDelta, binding.ivDieselPriceDelta);
+        });
+    }
+
+    private void adjustTopDashboardUi(float delta, AppCompatTextView texView, ImageView imageView) {
+        boolean isUp = delta > 0;
+        boolean isNoChange = delta == 0;
+
+        texView.setText(isNoChange ? "0.0" : String.valueOf(
+                MathUtil.roundToDecimalPlaces(Math.abs(delta),1)));
+        imageView.setVisibility(View.VISIBLE);
+
+        if (isNoChange) {
+            texView.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_ocean_blue));
+            imageView.setImageResource(R.drawable.ic_no_change);
+
+        } else {
+            imageView.setImageResource(isUp ? R.drawable.ic_price_up : R.drawable.ic_price_down);
+            texView.setTextColor(ContextCompat.getColor(requireContext(),
+                    isUp ? R.color.color_price_up : R.color.color_price_down));
+        }
     }
 
     public void jumpToConsoleCenter() {

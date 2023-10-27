@@ -48,5 +48,7 @@
     <color name="color_light_green">#7ED957</color>
     <color name="color_iron_grey">#3C3C3C</color>
     <color name="color_main_orange">#F4B363</color>
+    <color name="color_price_down">#23EE0E</color>
+    <color name="color_price_up">#FF3131</color>
 
 </resources>
