@@ -16,11 +16,11 @@
     </data>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_app_default_3"
-        android:fillViewport="true"
-        android:overScrollMode="never">
+        android:overScrollMode="never"
+        android:background="@drawable/bg_app_default_3">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -172,8 +172,8 @@
                             android:id="@+id/ivDieselPriceDelta"
                             android:layout_width="32dp"
                             android:layout_height="32dp"
-                            android:visibility="invisible"
                             android:src="@drawable/ic_price_up"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="@+id/tvDieselPriceDelta"
                             app:layout_constraintStart_toEndOf="@+id/tvDieselPriceDelta"
                             app:layout_constraintTop_toTopOf="@+id/tvDieselPriceDelta" />
@@ -230,13 +230,12 @@
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcyOilDashboard"
-                android:visibility="visible"
+            <LinearLayout
+                android:id="@+id/llOilCardContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:layout_marginBottom="80dp" />
+                android:layout_marginBottom="80dp"
+                android:orientation="vertical" />
 
         </LinearLayout>
 

@@ -57,7 +57,7 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
         executorService.submit(() -> {
             try {
                 //取得中油和台塑的爬蟲價格
-                getCpcAndFpgRemotePrice();
+                getNewCpcAndFpgRemotePrice();
                 //取得 costco 爬蟲價格
                 getCostcoRemotePrice();
 
@@ -73,44 +73,44 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
     /**
      * 取得中油和台塑的即時公告價格(本、下週)
      */
-    private void getCpcAndFpgRemotePrice() {
+    private void getNewCpcAndFpgRemotePrice() {
         //Connect to the website
 
         try {
-            Document doc = Jsoup.connect("https://icard.ai/blog/featured-post/gasprice/").get();
-
-            Elements updateTime = doc.select("div.elementor-element-8061220");
-            Elements rowElements = doc.select("div.elementor-element-c746410").select("tr");
+            Document doc = Jsoup.connect("https://toolboxtw.com/zh-TW/detector/gasoline_price").get();
+            Elements rowElements = doc.select("div.next_week_price_table").select("tbody")
+                    .select("tr");
 
             if (rowElements != null) {
                 //index：1 & 5 -> 中油 92 & 台塑 92 //index：2 & 6 -> 中油 95 & 台塑 95
                 //index：3 & 7 -> 中油 98 & 台塑 98 //index：4 & 8 -> 中油柴油 & 台塑柴油
 
-                for (int i = 1; i < rowElements.size(); i++) {
+                for (int i = 0; i < rowElements.size(); i++) {
                     Elements priceElements = rowElements.get(i).select("td");
 
                     // 98:0 95:1 92:2 99:3
-                    for (int s = 1; s < priceElements.size(); s++) {
-                        String price = priceElements.get(s).text();
+                    for (int s = 0; s < priceElements.size() - 1; s++) {
+                        String srcPrice = priceElements.get(s).text();
+                        String price = srcPrice.substring(0, srcPrice.length() - 1);
 
                         //第一行資訊：中油 92 第五行：台塑 92
-                        if (i == 1 || i == 5) {
-                            insertOilRowData(2, s, i == 1, price);
+                        if (i == 0 || i == 4) {
+                            insertOilRowData(2, s == 0, i == 0, price);
                         }
 
                         //第二行資訊：中油 95 第六行：台塑 95
-                        if (i == 2 || i == 6) {
-                            insertOilRowData(1, s, i == 2, price);
+                        if (i == 1 || i == 5) {
+                            insertOilRowData(1, s == 0, i == 1, price);
                         }
 
                         //第三行資訊：中油 98 第七行：台塑 98
-                        if (i == 3 || i == 7) {
-                            insertOilRowData(0, s, i == 3, price);
+                        if (i == 2 || i == 6) {
+                            insertOilRowData(0, s == 0, i == 2, price);
                         }
 
                         //第四行資訊：中油柴油 第八行：台塑柴油
-                        if (i == 4 || i == 8) {
-                            insertOilRowData(3, s, i == 4, price);
+                        if (i == 3 || i == 7) {
+                            insertOilRowData(3, s == 0, i == 3, price);
                         }
 
                     }
@@ -133,14 +133,13 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
             e.printStackTrace();
             Log.d("爬蟲測試：", "錯誤！");
         }
-
     }
 
     /**
      * 插入爬蟲的每列油價資訊到 oilDetailInfoList(中油和台塑)
      */
-    private void insertOilRowData(int qualityCode, int isNow, boolean isCpc, String price) {
-        if (isNow == 1) {
+    private void insertOilRowData(int qualityCode, boolean isNow, boolean isCpc, String price) {
+        if (isNow) {
             if (isCpc) {
                 oilDetailInfoList.get(qualityCode).setCpcNowPrice(price);
             } else {
@@ -174,7 +173,7 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
             for (int i = 1; i < columnCostco.size(); i++) {
                 //順序依序 98 95 超柴 (costco 沒有 92)
                 String nowPrice = columnCostco.get(i).text().substring(0, 4);
-                calculateCostcoPrice(i,nowPrice);
+                calculateCostcoPrice(i, nowPrice);
 
                 Log.d("爬蟲結果好市多：", "內容：" + columnCostco.get(i).text().substring(0, 4));
             }

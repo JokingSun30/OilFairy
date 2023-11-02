@@ -1,55 +1,47 @@
-package com.jokingsun.oilfairy.ui.fun.dashboard;
+package com.jokingsun.oilfairy.common.custom;
 
 import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
+import android.os.Handler;
 import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 
 import com.jokingsun.oilfairy.R;
-import com.jokingsun.oilfairy.base.BaseRecyclerAdapter;
-import com.jokingsun.oilfairy.common.constant.AppConstant;
 import com.jokingsun.oilfairy.common.constant.OilQualityEnum;
 import com.jokingsun.oilfairy.data.remote.model.response.ResOilDetailInfo;
-import com.jokingsun.oilfairy.databinding.LayoutLoadMoreProgressBinding;
-import com.jokingsun.oilfairy.databinding.LayoutOilPriceDashboardBinding;
+import com.jokingsun.oilfairy.databinding.LayoutOilCardViewBinding;
 
-import java.util.ArrayList;
+public class OilCardInfoView extends LinearLayout {
 
-public class HomeDashAdapter extends BaseRecyclerAdapter<ResOilDetailInfo> {
+    private final LayoutOilCardViewBinding binding;
 
-    private final Context context;
-    private float diffPrice = 0f;
+    public OilCardInfoView(Context context) {
+        super(context);
 
-    public HomeDashAdapter(Context context) {
-        this.context = context;
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.layout_oil_card_view, this, false);
+
+        this.addView(binding.getRoot(), new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
     }
 
-    @Override
-    protected int[] getLayoutIds() {
-        return new int[]{AppConstant.TYPE_NO_USE_HEADER, R.layout.layout_oil_price_dashboard};
-    }
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void insertOilInfo(ResOilDetailInfo oilDetailInfo){
 
-        if (holder.getBinding() instanceof LayoutOilPriceDashboardBinding) {
-            LayoutOilPriceDashboardBinding binding = (LayoutOilPriceDashboardBinding) holder.getBinding();
+        //填充油品 Logo
+        insertQualityLogo(oilDetailInfo.getQuality(), binding.ivQualityLogo);
 
-            ResOilDetailInfo detailInfo = dataList.get(position);
+        //填充本週各廠牌價格
+        insertDiffNowPrice(binding, oilDetailInfo);
 
-            //填充油品 Logo
-            insertQualityLogo(detailInfo.getQuality(), binding.ivQualityLogo);
-
-            //填充本週各廠牌價格
-            insertDiffNowPrice(binding, detailInfo);
-
-            //填充下週各廠牌價格
-            insertDiffNextPrice(binding, detailInfo);
-        }
+        //填充下週各廠牌價格
+        insertDiffNextPrice(binding, oilDetailInfo);
     }
 
     public void insertQualityLogo(String quality, ImageView imageView) {
@@ -71,7 +63,7 @@ public class HomeDashAdapter extends BaseRecyclerAdapter<ResOilDetailInfo> {
     }
 
 
-    private void insertDiffNowPrice(LayoutOilPriceDashboardBinding binding, ResOilDetailInfo detailInfo) {
+    private void insertDiffNowPrice(LayoutOilCardViewBinding binding, ResOilDetailInfo detailInfo) {
         binding.tvCpcNowPrice.setText(detailInfo.getCpcNowPrice());
         binding.tvFpgNowPrice.setText(detailInfo.getFpgNowPrice());
 
@@ -82,7 +74,7 @@ public class HomeDashAdapter extends BaseRecyclerAdapter<ResOilDetailInfo> {
         binding.tvCostcoNowPrice.setText(detailInfo.getCostcoNowPrice());
     }
 
-    private void insertDiffNextPrice(LayoutOilPriceDashboardBinding binding, ResOilDetailInfo detailInfo) {
+    private void insertDiffNextPrice(LayoutOilCardViewBinding binding, ResOilDetailInfo detailInfo) {
         binding.tvCpcNextPrice.setText(detailInfo.getCpcNextPrice());
         binding.tvFpgNextPrice.setText(detailInfo.getFpgNextPrice());
         if (detailInfo.getCostcoNextPrice() == null || detailInfo.getCostcoNextPrice().isEmpty()) {
