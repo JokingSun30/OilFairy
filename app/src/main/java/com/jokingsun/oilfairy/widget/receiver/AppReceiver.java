@@ -24,6 +24,8 @@ public class AppReceiver implements LifecycleObserver {
     public final static String ACTION_TYPE_OPEN_PAGE = "OPEN_PAGE";
     public final static String ACTION_TYPE_SET_CURRENT_PAGE = "CURRENT_PAGE";
 
+    public final static String ACTION_TYPE_STOP_LOADING = "STOP_LOADING";
+
     public static final String ACTION_TYPE_CURRENT_PAGE_INDEX = "CURRENT_PAGE_INDEX";
     private final SimpleCallback<Intent> callback;
     private final String actionType;

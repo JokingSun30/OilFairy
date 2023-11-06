@@ -1,5 +1,6 @@
 package com.jokingsun.oilfairy.ui.fun.dashboard;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,15 +15,19 @@ import com.jokingsun.oilfairy.BR;
 import com.jokingsun.oilfairy.R;
 import com.jokingsun.oilfairy.base.BaseFragment;
 import com.jokingsun.oilfairy.common.custom.OilCardInfoView;
+import com.jokingsun.oilfairy.common.dialog.LoadingDialog;
 import com.jokingsun.oilfairy.data.remote.model.response.ResOilDetailInfo;
 import com.jokingsun.oilfairy.databinding.FragmentHomeDashboardBinding;
 import com.jokingsun.oilfairy.ui.fun.console.ConsoleCenter;
 import com.jokingsun.oilfairy.utils.MathUtil;
+import com.jokingsun.oilfairy.widget.receiver.AppReceiver;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, HomeDashboardViewModel> {
+
+    private boolean isFirstLoad = true;
 
     public static HomeDashboard getInstance() {
         return new HomeDashboard();
@@ -36,7 +41,7 @@ public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, Ho
 
     @Override
     protected void initial() {
-        getViewModel().getNextWeekPredict();
+        loadDashboardData();
     }
 
     @Override
@@ -46,12 +51,21 @@ public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, Ho
 
     @Override
     protected void initSettingHaveVisible() {
-
     }
 
     @Override
     protected void onBackPressed() {
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isFirstLoad) {
+            loadDashboardData();
+        }
+
+        isFirstLoad = false;
     }
 
     @Override
@@ -72,15 +86,22 @@ public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, Ho
         return viewModel;
     }
 
+    private void loadDashboardData() {
+        getViewModel().getNextWeekPredict();
+    }
+
     private void observeOilDashboardData() {
         getViewModel().getOilDashboardData().observe(this, resOilDetails -> {
             if (resOilDetails != null && resOilDetails.size() > 0) {
+                binding.llOilCardContainer.removeAllViews();
+
                 for (ResOilDetailInfo detailInfo : resOilDetails) {
                     OilCardInfoView cardInfoView = new OilCardInfoView(getContext());
                     cardInfoView.insertOilInfo(detailInfo);
                     binding.llOilCardContainer.addView(cardInfoView);
                 }
 
+                sendFirstLoadProgressStop();
                 binding.llOilCardContainer.setVisibility(View.VISIBLE);
             }
         });
@@ -114,5 +135,10 @@ public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, Ho
 
     public void jumpToConsoleCenter() {
         AddFragment(new ConsoleCenter());
+    }
+
+    private void sendFirstLoadProgressStop(){
+        Intent intent = new Intent(AppReceiver.ACTION_TYPE_STOP_LOADING);
+        requireActivity().sendBroadcast(intent);
     }
 }

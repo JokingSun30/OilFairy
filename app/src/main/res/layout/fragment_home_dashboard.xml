@@ -15,234 +15,250 @@
 
     </data>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nest"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:background="@drawable/bg_app_default_3">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nest"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_app_default_3"
+            android:overScrollMode="never">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="monospace"
-                android:onClick="@{(v)->homeDashboard.jumpToConsoleCenter()}"
-                android:text="Kevin 早安！"
-                android:textColor="@color/white"
-                android:textSize="30sp"
-                android:textStyle="bold" />
-
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="10dp"
-                android:alpha="0.8"
-                android:background="@drawable/shape_black_10_corner"
-                android:elevation="20sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="10dp"
-                    android:text="下週 10 月 30 日 油價預估"
-                    android:textColor="@color/color_tangerine"
-                    android:textSize="18sp" />
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="monospace"
+                    android:onClick="@{(v)->homeDashboard.jumpToConsoleCenter()}"
+                    android:text="Kevin 早安！"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginTop="10dp"
+                    android:alpha="0.8"
+                    android:background="@drawable/shape_black_10_corner"
+                    android:elevation="20sp"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="10dp"
+                        android:text="下週 10 月 30 日 油價預估"
+                        android:textColor="@color/color_tangerine"
+                        android:textSize="18sp" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:orientation="horizontal">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:id="@+id/lottieAnimationView5"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="start"
+                                android:layout_weight="1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true"
+                                app:lottie_rawRes="@raw/loading"
+                                app:lottie_speed="1" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvGasPriceDelta"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text=""
+                                android:textSize="35sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/ivGasPriceDelta"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_price_down"
+                                android:visibility="invisible"
+                                app:layout_constraintBottom_toBottomOf="@+id/tvGasPriceDelta"
+                                app:layout_constraintStart_toEndOf="@+id/tvGasPriceDelta"
+                                app:layout_constraintTop_toTopOf="@+id/tvGasPriceDelta" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="汽油"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvGasPriceDelta" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <View
+                            android:layout_width="0.5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="40dp"
+                            android:layout_marginBottom="30dp"
+                            android:alpha="0.3"
+                            android:background="@color/color_hint_grey" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:id="@+id/lottieAnimationView6"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="start"
+                                android:layout_weight="1"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true"
+                                app:lottie_rawRes="@raw/loading"
+                                app:lottie_speed="1" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvDieselPriceDelta"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text=""
+                                android:textSize="35sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <ImageView
+                                android:id="@+id/ivDieselPriceDelta"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:src="@drawable/ic_price_up"
+                                android:visibility="invisible"
+                                app:layout_constraintBottom_toBottomOf="@+id/tvDieselPriceDelta"
+                                app:layout_constraintStart_toEndOf="@+id/tvDieselPriceDelta"
+                                app:layout_constraintTop_toTopOf="@+id/tvDieselPriceDelta" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="柴油"
+                                android:textColor="@color/white"
+                                android:textSize="18sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/tvDieselPriceDelta" />
+
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </LinearLayout>
+
+                </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/lottieAnimationView"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="start"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/news"
+                        app:lottie_speed="1" />
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/lottieAnimationView5"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="start"
-                            android:layout_weight="1"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:lottie_autoPlay="true"
-                            app:lottie_loop="true"
-                            app:lottie_rawRes="@raw/loading"
-                            app:lottie_speed="1" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvGasPriceDelta"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text=""
-                            android:textSize="35sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/ivGasPriceDelta"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_price_down"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="@+id/tvGasPriceDelta"
-                            app:layout_constraintStart_toEndOf="@+id/tvGasPriceDelta"
-                            app:layout_constraintTop_toTopOf="@+id/tvGasPriceDelta" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="汽油"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvGasPriceDelta" />
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="40dp"
-                        android:layout_marginBottom="30dp"
-                        android:alpha="0.3"
-                        android:background="@color/color_hint_grey" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
-
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:id="@+id/lottieAnimationView6"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="start"
-                            android:layout_weight="1"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:lottie_autoPlay="true"
-                            app:lottie_loop="true"
-                            app:lottie_rawRes="@raw/loading"
-                            app:lottie_speed="1" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tvDieselPriceDelta"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text=""
-                            android:textSize="35sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:id="@+id/ivDieselPriceDelta"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/ic_price_up"
-                            android:visibility="invisible"
-                            app:layout_constraintBottom_toBottomOf="@+id/tvDieselPriceDelta"
-                            app:layout_constraintStart_toEndOf="@+id/tvDieselPriceDelta"
-                            app:layout_constraintTop_toTopOf="@+id/tvDieselPriceDelta" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="柴油"
-                            android:textColor="@color/white"
-                            android:textSize="18sp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvDieselPriceDelta" />
-
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.github.yangkangli.marquee_text_view.MarqueeTextView
+                        android:id="@+id/tvNewDateTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:lines="1"
+                        android:text="下週油價汽油降 0.2 元 / 柴油降 0.3 元，請民眾外出留意自身安全！"
+                        android:textColor="@color/color_white"
+                        android:textSize="20sp"
+                        app:marquee_first_hold_time="1000"
+                        app:marquee_margin_between="100dp"
+                        app:marquee_move_step="2" />
 
                 </LinearLayout>
 
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/lottieAnimationView"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="start"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/news"
-                    app:lottie_speed="1" />
-
-                <com.github.yangkangli.marquee_text_view.MarqueeTextView
-                    android:id="@+id/tvNewDateTitle"
+                <LinearLayout
+                    android:id="@+id/llOilCardContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:lines="1"
-                    android:text="下週油價汽油降 0.2 元 / 柴油降 0.3 元，請民眾外出留意自身安全！"
-                    android:textColor="@color/color_white"
-                    android:textSize="20sp"
-                    app:marquee_first_hold_time="1000"
-                    app:marquee_margin_between="100dp"
-                    app:marquee_move_step="2" />
+                    android:layout_marginBottom="80dp"
+                    android:orientation="vertical"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/llOilCardContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="80dp"
-                android:visibility="invisible"
-                android:orientation="vertical" />
 
-        </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:indeterminateTint="@color/color_mango"
+            android:indeterminateTintMode="src_atop" />
 
-    </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
 
 
 </layout>

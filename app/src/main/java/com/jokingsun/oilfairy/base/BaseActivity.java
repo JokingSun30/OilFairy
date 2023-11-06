@@ -157,6 +157,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, VM extends BaseVie
         if (this.loading == null) {
             initLoadingView();
         }
+
         this.loading.dismiss();
     }
 

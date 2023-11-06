@@ -1,6 +1,7 @@
 package com.jokingsun.oilfairy.ui.controller;
 
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
+import static com.jokingsun.oilfairy.utils.StringUtil.analyticsOilPrice;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -37,6 +38,7 @@ import com.jokingsun.oilfairy.base.callback.iToolbarCallback;
 import com.jokingsun.oilfairy.common.adapter.CustomPagerAdapter;
 import com.jokingsun.oilfairy.common.constant.AppConstant;
 import com.jokingsun.oilfairy.common.custom.CustomViewPager;
+import com.jokingsun.oilfairy.common.dialog.LoadingDialog;
 import com.jokingsun.oilfairy.data.local.simple.ApplicationUserSp;
 import com.jokingsun.oilfairy.data.remote.SimpleCallback;
 import com.jokingsun.oilfairy.data.remote.model.response.TestSheetModel;
@@ -45,6 +47,7 @@ import com.jokingsun.oilfairy.ui.fun.center.PersonalCenter;
 import com.jokingsun.oilfairy.ui.fun.dashboard.HomeDashboard;
 import com.jokingsun.oilfairy.ui.fun.station.FindGasStation;
 import com.jokingsun.oilfairy.utils.SharedPreferencesUtil;
+import com.jokingsun.oilfairy.utils.StringUtil;
 import com.jokingsun.oilfairy.widget.manager.UpdateManager;
 import com.jokingsun.oilfairy.widget.receiver.AppReceiver;
 import com.orhanobut.logger.Logger;
@@ -67,7 +70,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
     protected void onCreate(Bundle savedInstanceState) {
         this.setContainer(R.id.container);
         super.onCreate(savedInstanceState);
-
+        binding.progressbar.setVisibility(View.VISIBLE);
         // Obtain the FirebaseAnalytics instance.
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
@@ -94,6 +97,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         getRemoteConfig();
 
         //建構底部導覽
+        //new Handler().postDelayed(this::setBottomNavAndPager, 10);
         setBottomNavAndPager();
 
         //取得 Device Token
@@ -354,9 +358,16 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
             @Override
             public void onCallback(Intent intent) {
                 if (intent.getAction() != null) {
+                    switch (intent.getAction()) {
+                        case AppReceiver.ACTION_TYPE_STOP_LOADING:
+                            binding.progressbar.setVisibility(View.GONE);
+                            break;
+                    }
                 }
             }
         };
+
+        getLifecycle().addObserver(new AppReceiver(this, AppReceiver.ACTION_TYPE_STOP_LOADING, appReceiverCallback));
     }
 
     /**

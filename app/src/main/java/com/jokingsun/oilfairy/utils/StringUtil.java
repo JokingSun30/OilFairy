@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Base64;
@@ -382,6 +383,33 @@ public class StringUtil {
 
     public static boolean isNullSafeString(String targetStr) {
         return targetStr != null && !targetStr.isEmpty();
+    }
+
+    public static float analyticsOilPrice(String srcPrice) {
+        if (!isNullSafeString(srcPrice)) {
+            return 0.0f;
+        }
+
+        if (TextUtils.equals(srcPrice, "不調整")) {
+            return 0.0f;
+        }
+
+        try {
+            float result = Float.parseFloat(srcPrice.substring(1, srcPrice.length() - 1));
+
+            if (srcPrice.startsWith("升") || srcPrice.startsWith("漲")) {
+                return result * 1;
+            }
+
+            if (srcPrice.startsWith("降") || srcPrice.startsWith("跌")) {
+                return result * -1;
+            }
+
+        } catch (Exception e) {
+            return 0.0f;
+        }
+
+        return 0.0f;
     }
 
 }

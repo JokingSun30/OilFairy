@@ -16,25 +16,20 @@
         android:layout_gravity="center"
         android:background="@android:color/transparent">
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:visibility="visible"
-            app:shimmer_auto_start="true"
-            app:shimmer_direction="left_to_right"
-            app:shimmer_highlight_alpha="0.6">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/app_loading"
+            app:lottie_speed="1.5" />
 
-            <ImageView
-                android:id="@+id/ivLoading"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:indeterminate="true"
-                android:src="@mipmap/ic_launcher" />
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
 
 
     </FrameLayout>

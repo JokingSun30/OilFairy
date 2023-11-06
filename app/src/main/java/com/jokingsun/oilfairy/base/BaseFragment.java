@@ -145,6 +145,14 @@ public abstract class BaseFragment<T extends ViewDataBinding, VM extends BaseVie
         return this.view;
     }
 
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//        this.initNetWorkManager();
+//        this.initView();
+//        this.initial();
+//    }
+
     /**
      * 透過 binding 初始 view 狀態
      */

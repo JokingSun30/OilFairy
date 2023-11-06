@@ -13,6 +13,7 @@ import com.jokingsun.oilfairy.data.local.livedata.BaseLiveDataModel;
 import com.jokingsun.oilfairy.data.remote.ApiHelper;
 import com.jokingsun.oilfairy.data.remote.model.response.ResOilDetailInfo;
 import com.jokingsun.oilfairy.data.remote.model.response.ResOilPriceInfo;
+import com.jokingsun.oilfairy.utils.StringUtil;
 
 import org.checkerframework.checker.units.qual.A;
 import org.jsoup.Jsoup;
@@ -34,6 +35,9 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
     public final MutableLiveData<Float> gasPriceDelta = new MutableLiveData<>();
     public final MutableLiveData<ArrayList<ResOilDetailInfo>> oilDashboardData = new MutableLiveData<>();
 
+    private float gasDelta = 0.0f;
+    private float dieselDelta = 0.0f;
+
     public HomeDashboardViewModel(ApiHelper apiHelper) {
         super(apiHelper);
         executorService = Executors.newFixedThreadPool(2);
@@ -45,7 +49,6 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
 
     @Override
     protected void setWhenNetWorkRework() {
-
     }
 
     @Override
@@ -56,18 +59,37 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
     public void getNextWeekPredict() {
         executorService.submit(() -> {
             try {
-                //取得中油和台塑的爬蟲價格
-                getNewCpcAndFpgRemotePrice();
-                //取得 costco 爬蟲價格
-                getCostcoRemotePrice();
-
-                oilDashboardData.postValue(oilDetailInfoList);
+                //取得下周油價變化值
+                getNextWeekPriceDelta();
 
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.d("爬蟲測試：", "錯誤！");
             }
         });
+    }
+
+    private void getNextWeekPriceDelta() {
+        try {
+            Document doc = Jsoup.connect("https://toolboxtw.com/zh-TW/detector/gasoline_price").get();
+            Elements rowElements = doc.select("div.card-body");
+
+            gasDelta = StringUtil.analyticsOilPrice(rowElements.get(0).text());
+            dieselDelta = StringUtil.analyticsOilPrice(rowElements.get(1).text());
+            gasPriceDelta.postValue(gasDelta);
+            dieselPriceDelta.postValue(dieselDelta);
+
+            //取得中油和台塑的爬蟲價格
+            getNewCpcAndFpgRemotePrice();
+            //取得 costco 爬蟲價格
+            getCostcoRemotePrice();
+
+            oilDashboardData.postValue(oilDetailInfoList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d("爬蟲測試：getNextWeekPriceDelta", "錯誤！" + e.getMessage());
+        }
     }
 
     /**
@@ -89,44 +111,29 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
                     Elements priceElements = rowElements.get(i).select("td");
 
                     // 98:0 95:1 92:2 99:3
-                    for (int s = 0; s < priceElements.size() - 1; s++) {
-                        String srcPrice = priceElements.get(s).text();
-                        String price = srcPrice.substring(0, srcPrice.length() - 1);
+                    String srcPrice = priceElements.get(0).text();
+                    String price = srcPrice.substring(0, srcPrice.length() - 1);
 
-                        //第一行資訊：中油 92 第五行：台塑 92
-                        if (i == 0 || i == 4) {
-                            insertOilRowData(2, s == 0, i == 0, price);
-                        }
+                    //第一行資訊：中油 92 第五行：台塑 92
+                    if (i == 0 || i == 4) {
+                        insertOilRowData(2, i == 0, price);
+                    }
 
-                        //第二行資訊：中油 95 第六行：台塑 95
-                        if (i == 1 || i == 5) {
-                            insertOilRowData(1, s == 0, i == 1, price);
-                        }
+                    //第二行資訊：中油 95 第六行：台塑 95
+                    if (i == 1 || i == 5) {
+                        insertOilRowData(1, i == 1, price);
+                    }
 
-                        //第三行資訊：中油 98 第七行：台塑 98
-                        if (i == 2 || i == 6) {
-                            insertOilRowData(0, s == 0, i == 2, price);
-                        }
+                    //第三行資訊：中油 98 第七行：台塑 98
+                    if (i == 2 || i == 6) {
+                        insertOilRowData(0, i == 2, price);
+                    }
 
-                        //第四行資訊：中油柴油 第八行：台塑柴油
-                        if (i == 3 || i == 7) {
-                            insertOilRowData(3, s == 0, i == 3, price);
-                        }
-
+                    //第四行資訊：中油柴油 第八行：台塑柴油
+                    if (i == 3 || i == 7) {
+                        insertOilRowData(3, i == 3, price);
                     }
                 }
-            }
-
-            if (oilDetailInfoList != null) {
-                //計算汽油預測差值
-                float cpcNowGasPrice = Float.parseFloat(oilDetailInfoList.get(0).getCpcNowPrice());
-                float cpcNextGasPrice = Float.parseFloat(oilDetailInfoList.get(0).getCpcNextPrice());
-                gasPriceDelta.postValue(cpcNextGasPrice - cpcNowGasPrice);
-
-                //計算柴油預測差值
-                float cpcNowDieselPrice = Float.parseFloat(oilDetailInfoList.get(3).getCpcNowPrice());
-                float cpcNextDieselPrice = Float.parseFloat(oilDetailInfoList.get(3).getCpcNextPrice());
-                dieselPriceDelta.postValue(cpcNextDieselPrice - cpcNowDieselPrice);
             }
 
         } catch (Exception e) {
@@ -138,20 +145,17 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
     /**
      * 插入爬蟲的每列油價資訊到 oilDetailInfoList(中油和台塑)
      */
-    private void insertOilRowData(int qualityCode, boolean isNow, boolean isCpc, String price) {
-        if (isNow) {
-            if (isCpc) {
-                oilDetailInfoList.get(qualityCode).setCpcNowPrice(price);
-            } else {
-                oilDetailInfoList.get(qualityCode).setFpgNowPrice(price);
-            }
+    private void insertOilRowData(int qualityCode, boolean isCpc, String price) {
+        float priceDelta = qualityCode == 3 ? dieselDelta : gasDelta;
+        String nextPrice = String.valueOf(Float.parseFloat(price) + priceDelta);
+
+        if (isCpc) {
+            oilDetailInfoList.get(qualityCode).setCpcNowPrice(price);
+            oilDetailInfoList.get(qualityCode).setCpcNextPrice(nextPrice);
 
         } else {
-            if (isCpc) {
-                oilDetailInfoList.get(qualityCode).setCpcNextPrice(price);
-            } else {
-                oilDetailInfoList.get(qualityCode).setFpgNextPrice(price);
-            }
+            oilDetailInfoList.get(qualityCode).setFpgNowPrice(price);
+            oilDetailInfoList.get(qualityCode).setFpgNextPrice(nextPrice);
         }
     }
 
@@ -174,8 +178,6 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
                 //順序依序 98 95 超柴 (costco 沒有 92)
                 String nowPrice = columnCostco.get(i).text().substring(0, 4);
                 calculateCostcoPrice(i, nowPrice);
-
-                Log.d("爬蟲結果好市多：", "內容：" + columnCostco.get(i).text().substring(0, 4));
             }
         }
     }
@@ -184,13 +186,9 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
      * 計算 costco 本週 &下週預測價格
      */
     private void calculateCostcoPrice(int index, String nowPrice) {
-        if (gasPriceDelta.getValue() == null || dieselPriceDelta.getValue() == null) {
-            return;
-        }
-
         boolean isGas = index == 1 || index == 2;
         int q = isGas ? index - 1 : index;
-        float delta = isGas ? gasPriceDelta.getValue() : dieselPriceDelta.getValue();
+        float delta = isGas ? gasDelta : dieselDelta;
         float result = Float.parseFloat(nowPrice) + delta;
         //本週
         oilDetailInfoList.get(q).setCostcoNowPrice(nowPrice);
