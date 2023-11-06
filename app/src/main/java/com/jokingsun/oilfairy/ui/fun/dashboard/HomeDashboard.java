@@ -80,6 +80,8 @@ public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, Ho
                     cardInfoView.insertOilInfo(detailInfo);
                     binding.llOilCardContainer.addView(cardInfoView);
                 }
+
+                binding.llOilCardContainer.setVisibility(View.VISIBLE);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.jokingsun.oilfairy.ui.fun.station;
 
+import android.animation.LayoutTransition;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
     private Location lastKnownLocation;
+    private boolean isDistanceTagShow = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,9 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
 
     @Override
     protected void initView() {
-
+        LayoutTransition lt = new LayoutTransition();
+        lt.disableTransitionType(LayoutTransition.DISAPPEARING);
+        binding.llDistanceTagMenu.setLayoutTransition(lt);
     }
 
     @Override
@@ -254,6 +258,13 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    //--------------------------------- 加油站篩選、列表、距離偵測 --------------------------------//
+
+    public void showDistanceTagMenu() {
+        isDistanceTagShow = !isDistanceTagShow;
+        binding.llDistanceTagMenu.setVisibility(isDistanceTagShow ? View.VISIBLE : View.GONE);
     }
 
 }

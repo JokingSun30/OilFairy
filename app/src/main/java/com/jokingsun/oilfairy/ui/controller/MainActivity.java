@@ -172,7 +172,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         //禁止左右滑動
         binding.viewpager.setPagingEnabled(false);
 
-        binding.navigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_dashboard));
+        binding.navigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_oil_price));
         binding.navigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_gas_station));
         binding.navigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_personal_center));
         binding.navigation.show(1, true);
