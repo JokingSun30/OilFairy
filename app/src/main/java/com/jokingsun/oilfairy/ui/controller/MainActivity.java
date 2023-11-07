@@ -15,7 +15,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -32,6 +34,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.gson.Gson;
 import com.jokingsun.oilfairy.BR;
+import com.jokingsun.oilfairy.BuildConfig;
 import com.jokingsun.oilfairy.R;
 import com.jokingsun.oilfairy.base.BaseActivity;
 import com.jokingsun.oilfairy.base.callback.iToolbarCallback;
@@ -50,6 +53,7 @@ import com.jokingsun.oilfairy.utils.SharedPreferencesUtil;
 import com.jokingsun.oilfairy.utils.StringUtil;
 import com.jokingsun.oilfairy.widget.manager.UpdateManager;
 import com.jokingsun.oilfairy.widget.receiver.AppReceiver;
+import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -68,6 +72,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Handle the splash screen transition.
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         this.setContainer(R.id.container);
         super.onCreate(savedInstanceState);
         binding.progressbar.setVisibility(View.VISIBLE);
@@ -97,7 +103,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         getRemoteConfig();
 
         //建構底部導覽
-        //new Handler().postDelayed(this::setBottomNavAndPager, 10);
         setBottomNavAndPager();
 
         //取得 Device Token
@@ -159,12 +164,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
      * 設置底部導覽與 ViewPager
      */
     private void setBottomNavAndPager() {
-        CustomViewPager viewPager = binding.viewpager;
-        viewPager.setPagingEnabled(false);
-
-        //設定預載n個頁面，default為1個
-        viewPager.setOffscreenPageLimit(3);
-
         pagerAdapter = new CustomPagerAdapter(getSupportFragmentManager());
 
         pagerAdapter.addFragment(new HomeDashboard());

@@ -4,7 +4,7 @@
         android:drawable="@drawable/bg_gradient"/>
     <item>
         <bitmap android:gravity="center"
-            android:src="@drawable/ic_oil_consume"/>
+            android:src="@drawable/baseline_recommend_24"/>
     </item>
 
 </layer-list>
