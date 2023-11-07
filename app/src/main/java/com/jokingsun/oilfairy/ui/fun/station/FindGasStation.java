@@ -35,6 +35,10 @@ import com.jokingsun.oilfairy.base.BaseFragment;
 import com.jokingsun.oilfairy.databinding.CustomInfoContentsBinding;
 import com.jokingsun.oilfairy.databinding.FragmentFindGasStationBinding;
 
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.ArrayList;
+
 public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, FindGasStationViewModel>
         implements OnMapReadyCallback {
 
@@ -49,6 +53,8 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
     private boolean locationPermissionGranted;
     private Location lastKnownLocation;
     private boolean isDistanceTagShow = false;
+
+    private ArrayList<String> stationResultList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +80,12 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
 
     @Override
     protected void initSettingHaveVisible() {
+    }
+
+    @Override
+    protected void loadPageData() {
+        super.loadPageData();
+        testGetStationResult();
     }
 
     @Override
@@ -265,6 +277,16 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
     public void showDistanceTagMenu() {
         isDistanceTagShow = !isDistanceTagShow;
         binding.llDistanceTagMenu.setVisibility(isDistanceTagShow ? View.VISIBLE : View.GONE);
+    }
+
+    private void testGetStationResult() {
+        for (int i = 0; i < 10; i++) {
+            stationResultList.add("");
+        }
+
+        StationResultAdapter resultAdapter = new StationResultAdapter(getContext());
+        binding.vpStationMenu.setAdapter(resultAdapter);
+        resultAdapter.setData(stationResultList);
     }
 
 }

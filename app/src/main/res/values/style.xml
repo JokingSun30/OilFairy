@@ -20,16 +20,6 @@
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 
-
-
-    <style name="SplashNewTheme">
-        <item name="android:windowBackground">@drawable/splash_background</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:statusBarColor">@color/colorAccent</item>
-    </style>
-
     <!--對話框圓角-->
     <style name="imageDialogCorner" parent="">
         <item name="cornerFamily">rounded</item>

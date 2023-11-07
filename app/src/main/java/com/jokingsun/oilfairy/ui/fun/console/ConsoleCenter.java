@@ -42,12 +42,6 @@ public class ConsoleCenter extends BaseFragment<FragmentConsoleCenterBinding, Co
     }
 
     @Override
-    protected void loadPageData() {
-        super.loadPageData();
-        getViewModel().getNextWeekPredict();
-    }
-
-    @Override
     protected void initToolBar() {
         hideToolbar();
     }
