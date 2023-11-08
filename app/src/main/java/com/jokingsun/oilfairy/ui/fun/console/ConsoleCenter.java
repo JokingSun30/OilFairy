@@ -7,6 +7,8 @@ import android.util.Log;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
 import com.jokingsun.oilfairy.BR;
@@ -33,7 +35,7 @@ import java.util.concurrent.Executors;
 public class ConsoleCenter extends BaseFragment<FragmentConsoleCenterBinding, ConsoleCenterViewModel> {
     @Override
     protected void initView() {
-
+        isMapServiceReady();
     }
 
     @Override
@@ -72,5 +74,24 @@ public class ConsoleCenter extends BaseFragment<FragmentConsoleCenterBinding, Co
             viewModel = new ViewModelProvider(this, getFactory()).get(ConsoleCenterViewModel.class);
         }
         return viewModel;
+    }
+
+    private boolean isMapServiceReady() {
+        Log.d("Google Map ", "checking google service version");
+
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(requireActivity());
+
+        if (available == ConnectionResult.SUCCESS) {
+            //everything is fine and the user can make map requests
+            Log.d("Google Map ", "isServiceOK: Google Play Service is working");
+            return true;
+
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
+            //an error o but we can resolve it
+            Log.d("iGoogle Map ", "an error occur but we can resolve it");
+            return false;
+        }
+
+        return false;
     }
 }
