@@ -1,5 +1,9 @@
 package com.jokingsun.oilfairy.common.constant;
 
+import android.Manifest;
+
+import java.security.Permissions;
+
 public class AppConstant {
 
     public static final String SP_KEY_FCM_TOKEN = "FCM_TOKEN";
@@ -29,5 +33,7 @@ public class AppConstant {
     public static final String SYSTEM_REMOTE_VERSION_CONFIG ="REMOTE_VERSION_CONFIG";
 
     public static final String TEST_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT2TY28h2J3tA2cqNFLBK0bJ4bFdcFMC6FVsBhThSmCV9Gz0wFqmfJIu66_Ms2g5bCHxsc6q6Nl_xHo/pubhtml?gid=0&single=true";
+
+    public static final String[] LOCATION_PERMISSION = {Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
 
 }

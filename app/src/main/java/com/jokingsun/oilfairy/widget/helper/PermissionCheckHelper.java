@@ -23,7 +23,7 @@ public class PermissionCheckHelper {
 
     private final AppCompatActivity activity;
     private String requestDialogTitle = "App 需要相關權限";
-    private String requestDialogContent = "請至「AG」設定中心手動授權";
+    private String requestDialogContent = "請至「油價小精靈」設定中心手動授權";
     private OnResultListener onResultListener;
     private int recentRequestCode = 0;
 

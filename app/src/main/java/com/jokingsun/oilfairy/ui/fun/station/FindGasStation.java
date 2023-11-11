@@ -98,7 +98,7 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
         super.onActivityCreated(savedInstanceState);
         FragmentManager fm = getChildFragmentManager();/// getChildFragmentManager();
 
-        SupportMapFragment supportMapFragment = (SupportMapFragment) fm.findFragmentById(R.id.mapContainer);
+        SupportMapFragment supportMapFragment;
         supportMapFragment = SupportMapFragment.newInstance();
         fm.beginTransaction().replace(R.id.mapContainer, supportMapFragment).commit();
         supportMapFragment.getMapAsync(this);
