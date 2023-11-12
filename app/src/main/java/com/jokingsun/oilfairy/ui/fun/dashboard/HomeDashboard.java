@@ -87,7 +87,7 @@ public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, Ho
     }
 
     private void loadDashboardData() {
-        getViewModel().getNextWeekPredict();
+        getViewModel().getOilDashboardInfo();
     }
 
     private void observeOilDashboardData() {
@@ -137,7 +137,7 @@ public class HomeDashboard extends BaseFragment<FragmentHomeDashboardBinding, Ho
         AddFragment(new ConsoleCenter());
     }
 
-    private void sendFirstLoadProgressStop(){
+    private void sendFirstLoadProgressStop() {
         Intent intent = new Intent(AppReceiver.ACTION_TYPE_STOP_LOADING);
         requireActivity().sendBroadcast(intent);
     }

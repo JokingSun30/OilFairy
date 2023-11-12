@@ -57,14 +57,15 @@
                     android:orientation="vertical">
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvPlacard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:layout_gravity="center_horizontal"
-                        android:layout_margin="10dp"
-                        android:text="下週 10 月 30 日 油價預估"
+                        android:textStyle="bold"
+                        android:text="@{homeDashboardViewModel.placardInfoData}"
                         android:textColor="@color/color_tangerine"
-                        android:textSize="18sp" />
-
+                        android:textSize="20sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

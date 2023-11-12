@@ -34,6 +34,7 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
     public final MutableLiveData<Float> dieselPriceDelta = new MutableLiveData<>();
     public final MutableLiveData<Float> gasPriceDelta = new MutableLiveData<>();
     public final MutableLiveData<ArrayList<ResOilDetailInfo>> oilDashboardData = new MutableLiveData<>();
+    public final MutableLiveData<String> placardInfoData = new MutableLiveData<>();
 
     private float gasDelta = 0.0f;
     private float dieselDelta = 0.0f;
@@ -56,40 +57,41 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
 
     }
 
-    public void getNextWeekPredict() {
+    public void getOilDashboardInfo() {
         executorService.submit(() -> {
+
             try {
-                //取得下周油價變化值
-                getNextWeekPriceDelta();
+
+                Document doc = Jsoup.connect("https://toolboxtw.com/zh-TW/detector/gasoline_price").get();
+
+                //取得標題公告日期及時間
+                String placardInfo = doc.select("div.price-prediction").select("h2").text();
+
+                if (StringUtil.isNullSafeString(placardInfo)) {
+                    boolean isHavePlacard = placardInfo.contains("公告");
+                    placardInfoData.postValue(isHavePlacard ? "最新油價調整已公告" : "下週油價預測");
+                }
+
+                //取得下周油價變化預測
+                Elements deltaElements = doc.select("div.card-body");
+
+                gasDelta = StringUtil.analyticsOilPrice(deltaElements.get(0).text());
+                dieselDelta = StringUtil.analyticsOilPrice(deltaElements.get(1).text());
+                gasPriceDelta.postValue(gasDelta);
+                dieselPriceDelta.postValue(dieselDelta);
+
+                //取得中油和台塑的爬蟲價格
+                getNewCpcAndFpgRemotePrice();
+                //取得 costco 爬蟲價格
+                getCostcoRemotePrice();
+
+                oilDashboardData.postValue(oilDetailInfoList);
 
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.d("爬蟲測試：", "錯誤！");
             }
         });
-    }
 
-    private void getNextWeekPriceDelta() {
-        try {
-            Document doc = Jsoup.connect("https://toolboxtw.com/zh-TW/detector/gasoline_price").get();
-            Elements rowElements = doc.select("div.card-body");
-
-            gasDelta = StringUtil.analyticsOilPrice(rowElements.get(0).text());
-            dieselDelta = StringUtil.analyticsOilPrice(rowElements.get(1).text());
-            gasPriceDelta.postValue(gasDelta);
-            dieselPriceDelta.postValue(dieselDelta);
-
-            //取得中油和台塑的爬蟲價格
-            getNewCpcAndFpgRemotePrice();
-            //取得 costco 爬蟲價格
-            getCostcoRemotePrice();
-
-            oilDashboardData.postValue(oilDetailInfoList);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.d("爬蟲測試：getNextWeekPriceDelta", "錯誤！" + e.getMessage());
-        }
     }
 
     /**
@@ -97,7 +99,6 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
      */
     private void getNewCpcAndFpgRemotePrice() {
         //Connect to the website
-
         try {
             Document doc = Jsoup.connect("https://toolboxtw.com/zh-TW/detector/gasoline_price").get();
             Elements rowElements = doc.select("div.next_week_price_table").select("tbody")
@@ -138,7 +139,6 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
 
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("爬蟲測試：", "錯誤！");
         }
     }
 
@@ -147,7 +147,7 @@ public class HomeDashboardViewModel extends BaseViewModel<HomeDashboard, BaseLiv
      */
     private void insertOilRowData(int qualityCode, boolean isCpc, String price) {
         float priceDelta = qualityCode == 3 ? dieselDelta : gasDelta;
-        String nextPrice = String.valueOf(Float.parseFloat(price) + priceDelta);
+        String nextPrice = String.valueOf(roundToDecimalPlaces(Float.parseFloat(price) + priceDelta, 1));
 
         if (isCpc) {
             oilDetailInfoList.get(qualityCode).setCpcNowPrice(price);
