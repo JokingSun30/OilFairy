@@ -1,0 +1,32 @@
+[
+  {
+    "ErrorCode": "1",
+    "Des": "身分有誤"
+  },
+  {
+    "ErrorCode": "2",
+    "Des": "鑽石不足"
+  },
+  {
+    "ErrorCode": "3",
+    "Des": "API參數少帶"
+  },
+  {
+    "ErrorCode": "4",
+    "Des": "API參數有誤"
+  },
+  {
+    "ErrorCode": "5",
+    "Des": "其中一個拉黑"
+  },
+  {
+    "ErrorCode": "6",
+    "Des": "交易失敗"
+  },
+  {
+    "ErrorCode": "7",
+    "Des": "通話中"
+  }
+]
+
+

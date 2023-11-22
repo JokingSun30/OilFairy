@@ -30,6 +30,10 @@ import com.orhanobut.logger.Logger;
 import com.zyq.easypermission.EasyPermission;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -345,6 +349,26 @@ public class GeneralUtil {
         }
 
         return 0;
+    }
+
+    public static String getJsonFromAsset(Context context, String fileName) {
+        String jsonString = "";
+
+        try {
+            InputStream is = context.getAssets().open(fileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            jsonString = new String(buffer, StandardCharsets.UTF_8);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+
+        return jsonString;
     }
 
 
