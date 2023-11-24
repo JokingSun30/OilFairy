@@ -48,7 +48,7 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
     private FusedLocationProviderClient locationProviderClient;
 
     private final LatLng defaultLocation = new LatLng(24.1988535, 120.6418947);
-    private static final int DEFAULT_ZOOM = 15;
+    private static final int DEFAULT_ZOOM = 16;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
     private Location lastKnownLocation;
@@ -182,6 +182,18 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
                                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+
+                                MarkerOptions options1 = new MarkerOptions()
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.image3))
+                                        .position(new LatLng(24.1695774,120.6836522));
+                                map.addMarker(options1);
+
+
+                                MarkerOptions options2 = new MarkerOptions()
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.image))
+                                        .position(new LatLng(24.168952,120.685094));
+                                map.addMarker(options2);
+
                             }
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
