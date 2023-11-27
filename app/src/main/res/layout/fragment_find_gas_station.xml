@@ -85,6 +85,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -159,6 +160,60 @@
 
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/flLocationBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:alpha="0.8"
+            android:gravity="center"
+            android:onClick="@{(v)->findGasStation.getDeviceLocation()}"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout3">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/shape_select_distance_tag_bg" />
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_location" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.8"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:layout_marginEnd="10dp"
+            android:onClick="@{(v)->findGasStation.enableRoadConditions()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flLocationBtn">
+
+            <ImageView
+                android:id="@+id/ivRoadBg"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/shape_unselect_distance_tag_bg" />
+
+            <ImageView
+                android:id="@+id/ivRoadSymbol"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_road_conditions"
+                app:layout_constraintBottom_toTopOf="@+id/vpStationMenu"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </FrameLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vpStationMenu"
