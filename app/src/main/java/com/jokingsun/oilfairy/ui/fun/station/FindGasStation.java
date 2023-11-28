@@ -46,7 +46,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, FindGasStationViewModel>
-        implements OnMapReadyCallback, GoogleMap.OnCameraIdleListener {
+        implements OnMapReadyCallback{
 
     public static final String TAG = "FindGasStation";
     private static final float DEFAULT_ZOOM = 15f;
@@ -76,19 +76,13 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
         locationProviderClient = LocationServices.getFusedLocationProviderClient(getBaseActivity());
         checkPermissionHelper = new PermissionCheckHelper(getBaseActivity());
         observeAutoTracingToggle();
-        setLazyLoadTime(0);
+        checkMapServiceReady();
+        getViewModel().startAutoTracing();
     }
 
     @Override
     protected void initToolBar() {
         hideToolbar();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        checkMapServiceReady();
-        getViewModel().startAutoTracing();
     }
 
     @Override
@@ -98,13 +92,8 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
     @Override
     protected void loadPageData() {
         super.loadPageData();
+        //getLocationPermission();
         // load gas station by asset resource
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getLocationPermission();
     }
 
     @Override
@@ -158,71 +147,56 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
         myMap = googleMap;
         myMap.setTrafficEnabled(false);
         myMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.mapstyle_night));
-        myMap.setOnCameraIdleListener(this);
         setUpClusterManager();
 
         //開啟App得時候，如果已經有權限，直接取得用戶位置
-        if (!alreadyGetUserLocation) {
-
-            if (checkPermissionHelper.hasPermission(getBaseActivity(), LOCATION_PERMISSION)) {
-                locationPermissionGranted = true;
-                getDeviceLocation();
-            }
+        if (!checkPermissionHelper.hasPermission(getBaseActivity(), LOCATION_PERMISSION)) {
+            moveCamera(defaultLocation);
         }
+
+        getDeviceLocation();
     }
 
     /**
-     * 取得裝置的位置
+     * 取得裝置的位置(一定要通過位置權限，如果沒有權限，則詢問用戶，另在 location icon 也會詢問)
      */
     public void getDeviceLocation() {
-        try {
-            if (locationPermissionGranted) {
-                if (ActivityCompat.checkSelfPermission(getBaseActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getBaseActivity(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-
-                Task<Location> location = locationProviderClient.getLastLocation();
-                location.addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        alreadyGetUserLocation = true;
-
-                        Location currentLocation = task.getResult();
-                        moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
-
-                        Log.d("Google Map", "Location is ：" + currentLocation.getLatitude() + "," +
-                                currentLocation.getLongitude());
-
-                    } else {
-                        Log.d("Google Map", "Location is not find");
-                    }
-                });
-
-                myMap.setMyLocationEnabled(true);
-                myMap.getUiSettings().setMyLocationButtonEnabled(false);
-            }
-
-        } catch (Exception e) {
-            Log.d("Google Map", "Location find exception" + e.getMessage());
-        }
-    }
-
-    /**
-     * 取的位置的權限
-     */
-    private void getLocationPermission() {
-        if (alreadyGetUserLocation) {
-            return;
-        }
-
         //通過權限
         checkPermissionHelper.setOnResultListener(() -> {
-            locationPermissionGranted = true;
-            getDeviceLocation();
+            try {
+                    if (ActivityCompat.checkSelfPermission(getBaseActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getBaseActivity(),
+                            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+
+                    locationPermissionGranted = true;
+                    Task<Location> location = locationProviderClient.getLastLocation();
+                    location.addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            alreadyGetUserLocation = true;
+
+                            Location currentLocation = task.getResult();
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
+
+                            Log.d("Google Map", "Location is ：" + currentLocation.getLatitude() + "," +
+                                    currentLocation.getLongitude());
+
+                        } else {
+                            Log.d("Google Map", "Location is not find");
+                        }
+                    });
+
+                    myMap.setMyLocationEnabled(true);
+                    myMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+            } catch (Exception e) {
+                Log.d("Google Map", "Location find exception" + e.getMessage());
+            }
         });
 
         int REQUEST_LOCATION_CODE = 100;
+        //取的位置的權限
         checkPermissionHelper.checkPermission(LOCATION_PERMISSION, REQUEST_LOCATION_CODE);
     }
 
@@ -254,25 +228,12 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
         myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM));
     }
 
-    @Override
-    public void onCameraIdle() {
-//
-//            float[] results = new float[3];
-//            Location.distanceBetween(recordCameraLatLng.latitude, recordCameraLatLng.longitude,
-//                    newLatLng.latitude, newLatLng.longitude, results);
-//            count++;
-//            Log.d("Google Map", "cameraCenter real change：" + results[0] / 1000 + "km");
-//
-    }
-
     /**
      * 安裝 Google Map 叢集管理者
      */
     @SuppressLint("PotentialBehaviorOverride")
     private void setUpClusterManager() {
         // Position the map.
-        moveCamera(defaultLocation);
-
         // Initialize the manager with the context and the map.
         // (Activity extends context, so we can pass 'this' in the constructor.)
         clusterManager = new ClusterManager<>(getBaseActivity(), myMap);
@@ -390,9 +351,8 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
                         Log.d(TAG, "自動追蹤：lat:" + receiveLocation.getLatitude() + ",lng:" + receiveLocation.getLongitude() +
                                 "距離相差：" + results[0] + "m");
 
-                        if (results[0] >= 5) {
+                        if (results[0] >= 100) {
                             //當兩點的裝置紀錄位置相差100公尺，就顯示再次搜尋此區域的標籤
-                            getViewModel().closeAutoTracing();
                             binding.tvSearchAgain.setVisibility(View.VISIBLE);
                         }
 
