@@ -6,8 +6,8 @@ import android.Manifest;
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.location.Location;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.maps.android.clustering.ClusterManager;
 import com.jokingsun.oilfairy.BR;
@@ -48,17 +50,17 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
 
     public static final String TAG = "FindGasStation";
     private static final float DEFAULT_ZOOM = 15f;
-
     private GoogleMap myMap;
     private ClusterManager<OilMarkerItem> clusterManager;
     private final ArrayList<OilMarkerItem> everSelectItems = new ArrayList<>();
-
+    private FusedLocationProviderClient locationProviderClient;
+    private PermissionCheckHelper checkPermissionHelper;
     private final LatLng defaultLocation = new LatLng(25.0399987, 121.501651);
-
     private Location lastKnownLocation;
     private boolean isDistanceTagShow = false;
     private boolean alreadyGetUserLocation = false;
     private boolean locationPermissionGranted = false;
+    private boolean clickAutoTracingBtn = false;
 
     @Override
     protected void initView() {
@@ -71,6 +73,10 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
 
     @Override
     protected void initial() {
+        locationProviderClient = LocationServices.getFusedLocationProviderClient(getBaseActivity());
+        checkPermissionHelper = new PermissionCheckHelper(getBaseActivity());
+        observeAutoTracingToggle();
+        setLazyLoadTime(0);
     }
 
     @Override
@@ -82,6 +88,7 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
     public void onStart() {
         super.onStart();
         checkMapServiceReady();
+        getViewModel().startAutoTracing();
     }
 
     @Override
@@ -91,12 +98,23 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
     @Override
     protected void loadPageData() {
         super.loadPageData();
+        // load gas station by asset resource
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         getLocationPermission();
     }
 
     @Override
     protected void onBackPressed() {
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getViewModel().closeAutoTracing();
     }
 
     @Override
@@ -146,8 +164,7 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
         //開啟App得時候，如果已經有權限，直接取得用戶位置
         if (!alreadyGetUserLocation) {
 
-            PermissionCheckHelper checkHelper = new PermissionCheckHelper(getBaseActivity());
-            if (checkHelper.hasPermission(getBaseActivity(), LOCATION_PERMISSION)) {
+            if (checkPermissionHelper.hasPermission(getBaseActivity(), LOCATION_PERMISSION)) {
                 locationPermissionGranted = true;
                 getDeviceLocation();
             }
@@ -158,8 +175,6 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
      * 取得裝置的位置
      */
     public void getDeviceLocation() {
-        FusedLocationProviderClient locationProviderClient = LocationServices.getFusedLocationProviderClient(getBaseActivity());
-
         try {
             if (locationPermissionGranted) {
                 if (ActivityCompat.checkSelfPermission(getBaseActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -201,15 +216,14 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
             return;
         }
 
-        PermissionCheckHelper helper = new PermissionCheckHelper(getBaseActivity());
         //通過權限
-        helper.setOnResultListener(() -> {
+        checkPermissionHelper.setOnResultListener(() -> {
             locationPermissionGranted = true;
             getDeviceLocation();
         });
 
         int REQUEST_LOCATION_CODE = 100;
-        helper.checkPermission(LOCATION_PERMISSION, REQUEST_LOCATION_CODE);
+        checkPermissionHelper.checkPermission(LOCATION_PERMISSION, REQUEST_LOCATION_CODE);
     }
 
     /**
@@ -242,18 +256,6 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
 
     @Override
     public void onCameraIdle() {
-        LatLng newLatLng = myMap.getCameraPosition().target;
-        Log.d("Google Map", "onCameraIdle ：lat:" + newLatLng.latitude + "," +
-                "lng:" + newLatLng.longitude);
-
-//        if (recordCameraLatLng == null) {
-//            recordCameraLatLng = newLatLng;
-//
-//        } else {
-
-//            long startTime = System.currentTimeMillis();
-//            Log.d("執行時間：", "開始：" + startTime);
-//            int count = 0;
 //
 //            float[] results = new float[3];
 //            Location.distanceBetween(recordCameraLatLng.latitude, recordCameraLatLng.longitude,
@@ -261,19 +263,6 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
 //            count++;
 //            Log.d("Google Map", "cameraCenter real change：" + results[0] / 1000 + "km");
 //
-//            MarkerOptions markerOptions = new MarkerOptions()
-//                    .position(recordCameraLatLng)
-//                    .title("")
-//                    .icon(BitmapDescriptorFactory
-//                            .defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-//
-//            //設置地圖圖標
-//            if (googleMap != null) {
-//                googleMap.addMarker(markerOptions);
-//            }
-//
-//        }
-
     }
 
     /**
@@ -370,31 +359,57 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
         binding.vpStationMenu.setAdapter(resultAdapter);
     }
 
-    private void readResGasStation() {
-        try {
-            String jsonFileString = GeneralUtil.getJsonFromAsset(getBaseActivity(), "sample.json");
+    private void observeAutoTracingToggle() {
+        getViewModel().getToggleScheduleTracing().observe(this, toggle -> {
+            if (toggle) {
+                if (ActivityCompat.checkSelfPermission(getBaseActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getBaseActivity(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
 
-            JSONArray jsonArray = new JSONArray(jsonFileString);
+                Task<Location> locationTask = locationProviderClient.getLastLocation();
+                locationTask.addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Location receiveLocation = task.getResult();
 
-            ArrayList<SampleModel.DataBean> dataBeans = new ArrayList<>();
+                        if (lastKnownLocation == null) {
+                            lastKnownLocation = receiveLocation;
+                        }
 
-            for (int i = 0; i < jsonArray.length(); i++) {
-                String code = jsonArray.getJSONObject(i).getString("ErrorCode");
-                String des = jsonArray.getJSONObject(i).getString("Des");
+                        if (clickAutoTracingBtn) {
+                            //啟動自動搜尋附近加油站
+                            return;
+                        }
 
-                SampleModel.DataBean dataBean = new SampleModel.DataBean();
-                dataBean.setErrorCode(code);
-                dataBean.setDes(des);
-                dataBeans.add(dataBean);
+                        float[] results = new float[3];
+
+                        Location.distanceBetween(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(),
+                                receiveLocation.getLatitude(), receiveLocation.getLongitude(), results);
+
+                        Log.d(TAG, "自動追蹤：lat:" + receiveLocation.getLatitude() + ",lng:" + receiveLocation.getLongitude() +
+                                "距離相差：" + results[0] + "m");
+
+                        if (results[0] >= 5) {
+                            //當兩點的裝置紀錄位置相差100公尺，就顯示再次搜尋此區域的標籤
+                            getViewModel().closeAutoTracing();
+                            binding.tvSearchAgain.setVisibility(View.VISIBLE);
+                        }
+
+                        lastKnownLocation = receiveLocation;
+                    }
+                });
             }
+        });
+    }
 
-            SampleModel sampleModel = new SampleModel();
-            sampleModel.setData(dataBeans);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+    /**
+     * 重新搜尋此區域的加油站
+     */
+    public void reSearchNearStation() {
+        binding.tvSearchAgain.setVisibility(View.INVISIBLE);
+        getViewModel().startAutoTracing();
+        showToast("重新搜尋此區域的加油站");
     }
 
 }
