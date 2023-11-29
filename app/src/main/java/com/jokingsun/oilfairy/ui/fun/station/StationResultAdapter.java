@@ -14,8 +14,10 @@ import com.jokingsun.oilfairy.utils.GlideLoadUtil;
 
 import java.util.ArrayList;
 
+/**
+ * 加油站搜尋結果 Adapter
+ */
 public class StationResultAdapter extends BaseRecyclerAdapter<String> {
-
 
     private final Context context;
 

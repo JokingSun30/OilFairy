@@ -27,6 +27,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 尋找附近加油站 ViewModel
+ */
 public class FindGasStationViewModel extends BaseViewModel<FindGasStation, BaseLiveDataModel> {
 
     private ScheduledExecutorService scheduler;

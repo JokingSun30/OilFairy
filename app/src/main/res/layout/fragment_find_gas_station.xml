@@ -58,6 +58,7 @@
                 android:textColor="@color/color_mango"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -74,103 +75,30 @@
                 app:layout_constraintTop_toTopOf="@+id/appCompatTextView2" />
 
             <ImageView
+                android:id="@+id/ivReSearch"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_marginStart="15dp"
-                android:src="@drawable/ic_list"
+                android:src="@drawable/ic_refresh"
+                android:onClick="@{(v)->findGasStation.reSearchStation()}"
                 app:layout_constraintBottom_toBottomOf="@+id/appCompatTextView2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/appCompatTextView2" />
+                app:layout_constraintTop_toTopOf="@+id/appCompatTextView2"
+                app:tint="@color/white" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout3"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/appCompatTextView"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_select_distance_tag_bg"
-                android:gravity="center"
-                android:onClick="@{(v)->findGasStation.showDistanceTagMenu()}"
-                android:padding="5dp"
-                android:text="1 公里"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:textStyle="normal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
-
-            <LinearLayout
-                android:id="@+id/llDistanceTagMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/appCompatTextView"
-                app:layout_constraintStart_toStartOf="@+id/appCompatTextView"
-                app:layout_constraintTop_toBottomOf="@+id/appCompatTextView">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_unselect_distance_tag_bg"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="5 公里"
-                    android:textColor="@color/color_tangerine"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_unselect_distance_tag_bg"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="10 公里"
-                    android:textColor="@color/color_tangerine"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_unselect_distance_tag_bg"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="15 公里"
-                    android:textColor="@color/color_tangerine"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
-
-            </LinearLayout>
-
-        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/flLocationBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
+            android:layout_marginTop="15dp"
             android:alpha="0.8"
             android:gravity="center"
             android:onClick="@{(v)->findGasStation.getDeviceLocation()}"
-            app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/linearLayout3">
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
             <ImageView
                 android:layout_width="35dp"
@@ -214,22 +142,6 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
         </FrameLayout>
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSearchAgain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0.8"
-            android:background="@drawable/shape_black_10_corner"
-            android:padding="10dp"
-            android:text="重新搜尋此區域"
-            android:onClick="@{(v)->findGasStation.reSearchNearStation()}"
-            android:textColor="@color/white"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/linearLayout3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/linearLayout3" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vpStationMenu"

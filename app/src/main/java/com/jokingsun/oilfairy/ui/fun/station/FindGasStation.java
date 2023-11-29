@@ -4,6 +4,7 @@ import static com.jokingsun.oilfairy.common.constant.AppConstant.LOCATION_PERMIS
 
 import android.Manifest;
 import android.animation.LayoutTransition;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -45,6 +46,9 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
+/**
+ * 尋找附近加油站 Page
+ */
 public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, FindGasStationViewModel>
         implements OnMapReadyCallback{
 
@@ -64,9 +68,6 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
 
     @Override
     protected void initView() {
-        LayoutTransition lt = new LayoutTransition();
-        lt.disableTransitionType(LayoutTransition.DISAPPEARING);
-        binding.llDistanceTagMenu.setLayoutTransition(lt);
         binding.ivRoadSymbol.setImageResource(R.drawable.ic_road_conditions);
         binding.ivRoadSymbol.clearColorFilter();
     }
@@ -310,11 +311,6 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
 
     //--------------------------------- 加油站篩選、列表、距離偵測 --------------------------------//
 
-    public void showDistanceTagMenu() {
-        isDistanceTagShow = !isDistanceTagShow;
-        binding.llDistanceTagMenu.setVisibility(isDistanceTagShow ? View.VISIBLE : View.GONE);
-    }
-
     private void testGetStationResult() {
         StationResultAdapter resultAdapter = new StationResultAdapter(getContext());
         binding.vpStationMenu.setAdapter(resultAdapter);
@@ -345,16 +341,9 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
 
                         float[] results = new float[3];
 
-                        Location.distanceBetween(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(),
-                                receiveLocation.getLatitude(), receiveLocation.getLongitude(), results);
+//                        Location.distanceBetween(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(),
+//                                receiveLocation.getLatitude(), receiveLocation.getLongitude(), results);
 
-                        Log.d(TAG, "自動追蹤：lat:" + receiveLocation.getLatitude() + ",lng:" + receiveLocation.getLongitude() +
-                                "距離相差：" + results[0] + "m");
-
-                        if (results[0] >= 100) {
-                            //當兩點的裝置紀錄位置相差100公尺，就顯示再次搜尋此區域的標籤
-                            binding.tvSearchAgain.setVisibility(View.VISIBLE);
-                        }
 
                         lastKnownLocation = receiveLocation;
                     }
@@ -363,13 +352,11 @@ public class FindGasStation extends BaseFragment<FragmentFindGasStationBinding, 
         });
     }
 
-    /**
-     * 重新搜尋此區域的加油站
-     */
-    public void reSearchNearStation() {
-        binding.tvSearchAgain.setVisibility(View.INVISIBLE);
-        getViewModel().startAutoTracing();
-        showToast("重新搜尋此區域的加油站");
+    public void reSearchStation(){
+        ObjectAnimator animator = ObjectAnimator.ofFloat(binding.ivReSearch,"rotation",
+                0f,720f).setDuration(1000);
+        animator.start();
+        showToast("重新搜尋附近加油站");
     }
 
 }

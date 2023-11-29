@@ -15,6 +15,9 @@ import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.jokingsun.oilfairy.R;
 import com.jokingsun.oilfairy.data.local.OilMarkerItem;
 
+/**
+ * 客製 Google Map 叢集渲染
+ */
 public class CustomClusterRenderer extends DefaultClusterRenderer<OilMarkerItem> {
 
     private final Context context;
